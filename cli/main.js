@@ -10,7 +10,7 @@ const crypto = require('crypto')
 // Global Constants
 ////////////////////////////////////////////////////////////////////////////////
 
-const CONFIGURATION = '~/.pwrc'
+const CONFIGURATION = '~/.pw/.pwrc'
 const HOSTNAME = 'api.passwords.durfee.io'
 const PORT = 443
 const BASE_URL = '/accounts'
