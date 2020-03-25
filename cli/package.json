@@ -1,0 +1,14 @@
+{
+  "name": "passwords-cli",
+  "version": "1.0.0",
+  "description": "Command-line interface for remote encrypted password storage.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Robert Durfee",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^5.0.0"
+  }
+}
