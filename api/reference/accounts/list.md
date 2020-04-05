@@ -56,7 +56,7 @@ If successful, the response body contains data with the following structure:
             "username": string,
             "password": string
         }
-    ],
+    ]
 }
 ```
 
@@ -76,12 +76,10 @@ If successful, the response body contains data with the following structure:
 
 ```
 curl                                                                           \
-    --cert-type P12                                                            \
-    --cert alice.p12                                                           \
-    -k                                                                         \
+    --cert ~/.pw/alice.cert.pem                                                \
+    --key ~/.pw/alice.key.pem                                                  \
+    --cacert ~/.pw/ca.cert.pem                                                 \
     -G                                                                         \
     "https://api.passwords.durfee.io/accounts"                                 \
-    -d "createdBefore=20200322T040621Z"                                        \
-    -d "domainNameEndsWith=amazon.com"
+    -d "domainNameEndsWith=example.domain.name"
 ```
-
