@@ -10,12 +10,9 @@ DELETE https://api.passwords.durfee.io/accounts/{resourceId}
 
 ## Path parameters
 
-| Parameters   |                                                               |
-|--------------|---------------------------------------------------------------|
-| `resourceId` | `string`                                                      |
-|              |                                                               |
-|              | The unique identifier of the account resource to return. This |
-|              | identifier is defined by the server.                          |
+| Parameters |   |
+|---|---|
+| `resourceId` | `string` <br><br> The unique identifier of the account resource to return. This identifier is defined by the server. |
 
 ## Query parameters
 
