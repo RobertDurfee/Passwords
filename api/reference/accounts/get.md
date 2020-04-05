@@ -11,7 +11,7 @@ GET https://api.passwords.durfee.io/accounts/{resourceId}
 ## Path parameters
 
 | Parameters |  |
-|---|---|
+|:--|---|
 | `resourceId` | `string` <br><br> The unique identifier of the account resource to return. This identifier is defined by the server. |
 
 ## Query parameters
@@ -41,7 +41,7 @@ If successful, the response body contains data with the following structure:
 ```
 
 | Fields |   |
-|---|---|
+|:--|---|
 | `id` | `string` <br><br> The unique identifier for the account resource. This identifier is defined by the server. |
 | `createdTimestamp` | `string` <br><br> The time when the account resource was first created. |
 | `modifiedTimestamp` | `string` <br><br> The time when the account resource was last modified. |
