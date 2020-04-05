@@ -1,4 +1,4 @@
-# Method: accounts.delete
+# Method: `accounts.delete`
 
 Deletes the specified account resource.
 
