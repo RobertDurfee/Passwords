@@ -72,9 +72,9 @@ If successful, the response body contains data with the following structure:
 
 ```
 curl                                                                           \
-    --cert-type P12                                                            \
-    --cert alice.p12                                                           \
-    -k                                                                         \
+    --cert ~/.pw/alice.cert.pem                                                \
+    --key ~/.pw/alice.key.pem                                                  \
+    --cacert ~/.pw/ca.cert.pem                                                 \
     -X POST                                                                    \
     "https://api.passwords.durfee.io/accounts"                                 \
     -H "Content-Type: application/json"                                        \
