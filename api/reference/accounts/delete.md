@@ -29,11 +29,11 @@ If successful, the response body will be empty.
 ## Example
 
 ```
-curl                                                                           \
-    --cert ~/.pw/alice.cert.pem                                                \
-    --key ~/.pw/alice.key.pem                                                  \
-    --cacert ~/.pw/ca.cert.pem                                                 \
-    -X DELETE                                                                  \
+curl \
+    --cert ~/.pw/alice.cert.pem \
+    --key ~/.pw/alice.key.pem \
+    --cacert ~/.pw/ca.cert.pem \
+    -X DELETE \
     "https://api.passwords.durfee.io/accounts/5e7be4d894ab3d01651df603"
 ```
 
