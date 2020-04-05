@@ -65,13 +65,13 @@ If successful, the response body contains data with the following structure.
 ## Example
 
 ```
-curl                                                                           \
-    --cert-type P12                                                            \
-    --cert alice.p12                                                           \
-    -k                                                                         \
-    -X POST                                                                    \
-    "https://api.passwords.durfee.io/accounts/1/setPassword"                   \
-    -H "Content-Type: application/json"                                        \
+curl                                                                                \
+    --cert ~/.pw/alice.cert.pem                                                     \
+    --key ~/.pw/alice.key.pem                                                       \
+    --cacert ~/.pw/ca.cert.pem                                                      \
+    -X POST                                                                         \
+    "https://api.passwords.durfee.io/accounts/5e7be4d894ab3d01651df603/setPassword" \
+    -H "Content-Type: application/json"                                             \
     -d '
     {
        "password": "examplePassword"
