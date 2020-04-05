@@ -30,10 +30,10 @@ If successful, the response body will be empty.
 
 ```
 curl                                                                           \
-    --cert-type P12                                                            \
-    --cert alice.p12                                                           \
-    -k                                                                         \
+    --cert ~/.pw/alice.cert.pem                                                \
+    --key ~/.pw/alice.key.pem                                                  \
+    --cacert ~/.pw/ca.cert.pem                                                 \
     -X DELETE                                                                  \
-    "https://api.passwords.durfee.io/accounts/1"
+    "https://api.passwords.durfee.io/accounts/5e7be4d894ab3d01651df603"
 ```
 
