@@ -72,10 +72,8 @@ curl \
     -X POST \
     "https://api.passwords.durfee.io/accounts/5e7be4d894ab3d01651df603/setPassword" \
     -H "Content-Type: application/json" \
-    -d '
-    {
+    -d '{
        "password": "examplePassword"
-    }
-    '
+    }'
 ```
 
