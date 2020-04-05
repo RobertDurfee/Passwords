@@ -72,14 +72,14 @@ If successful, the response body contains data with the following structure:
 | `items[].username` | `string` <br><br> The username for the account resource. |
 | `items[].password` | `string` <br><br> The password for the account resource. This field is encrypted using the AES encryption key in the `key` field. |
 
-## Example
+## `curl` Example
 
 ```
-curl                                                                           \
-    --cert ~/.pw/alice.cert.pem                                                \
-    --key ~/.pw/alice.key.pem                                                  \
-    --cacert ~/.pw/ca.cert.pem                                                 \
-    -G                                                                         \
-    "https://api.passwords.durfee.io/accounts"                                 \
+curl \
+    --cert ~/.pw/alice.cert.pem \
+    --key ~/.pw/alice.key.pem \
+    --cacert ~/.pw/ca.cert.pem \
+    -G \
+    "https://api.passwords.durfee.io/accounts" \
     -d "domainNameEndsWith=example.domain.name"
 ```
