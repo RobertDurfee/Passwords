@@ -31,7 +31,7 @@ The request body contains data with the following structure:
 ```
 
 | Fields |   |
-|---|---|
+|:--|---|
 | `key` | `string` <br><br> The AES encryption key used to encrypt the password field. This field is encrypted using the user's public key. |
 | `iv` | `string` <br><br> The AES initialization vector used to encrypt the password field. |
 | `domainName` | `string` <br><br> The domain name for the account resource. |
@@ -57,7 +57,7 @@ If successful, the response body contains data with the following structure:
 ```
 
 | Fields |   |
-|---|---|
+|:--|---|
 | `id` | `string` <br><br> The unique identifier for the account resource. This identifier is defined by the server. |
 | `createdTimestamp` | `string` <br><br> The time when the account resource was first created. |
 | `modifiedTimestamp` | `string` <br><br> The time when the account resource was last modified. |
