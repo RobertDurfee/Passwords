@@ -1,4 +1,4 @@
-# Method: accounts.setPassword
+# Method: `accounts.setPassword`
 
 Sets an account's password.
 
