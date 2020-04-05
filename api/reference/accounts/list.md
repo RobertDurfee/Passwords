@@ -15,7 +15,7 @@ No path parameters are allowed.
 ## Query parameters
 
 | Parameters |   |
-|---|---|
+|:--|---|
 | `domainName` | `string` <br><br> Returns account resources with domain names exactly matching the provided domain name. |
 | `domainNameEndsWith` | `string` <br><br> Returns account resources with domain names ending with the provided domain name suffix. <br><br> Note: This is an efficient match making use of existing indexes. |
 | `domainNameContains` | `string` <br><br> Returns account resources with domain names containing the provided domain name pattern. <br><br> Warning: This is an expensive match that requires an index scan. |
@@ -31,7 +31,7 @@ No path parameters are allowed.
 | `accessedAt` | `string` Returns account resources accessed at the provided time. |
 | `accessedBefore` | `string` <br><br> Returns account resources accessed before the provided time. |
 | `accessedAfter` | `string` <br><br> Returns account resources accessed after the provided time. |
-| `order` | `'asc'|'desc'` <br><br> Specifies the sorting direction. <br><br> By default, results are returned in ascending order. |
+| `order` | `'asc'\|'desc'` <br><br> Specifies the sorting direction. <br><br> By default, results are returned in ascending order. |
 | `orderBy` | `string` <br><br> Sorts list results using the provided field. <br><br> Currently supported fields include: <br> <ul><li>`createdTimestamp`</li><li>`modifiedTimestamp`</li><li>`accessedTimestamp`</li><li>`domainName`</li><li>`username`</li></ul> By default, results are sorted using the `domainName` field. |
 
 ## Request body
@@ -61,7 +61,7 @@ If successful, the response body contains data with the following structure:
 ```
 
 | Fields |   |
-|---|---|
+|:--|---|
 | `items[].id` | `string` <br><br> The unique identifier for the account resource. This identifier is defined by the server. |
 | `items[].createdTimestamp` | `string` <br><br> The time when the account resource was first created. |
 | `items[].modifiedTimestamp` | `string` <br><br> The time when the account resource was last modified. |
