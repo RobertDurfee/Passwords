@@ -62,19 +62,17 @@ If successful, the response body contains data with the following structure.
 | `username` | `string` <br><br> The username for the account resource. |
 | `password` | `string` <br><br> The password for the account resource. This field is encrypted using the AES encryption key in the `key` field. |
 
-## Example
+## `curl` Example
 
 ```
-curl                                                                           \
-    --cert-type P12                                                            \
-    --cert alice.p12                                                           \
-    -k                                                                         \
-    -X POST                                                                    \
-    "https://api.passwords.durfee.io/accounts/1/setUsername"                   \
-    -H "Content-Type: application/json"                                        \
-    -d '
-    {
+curl \
+    --cert ~/.pw/alice.cert.pem \
+    --key ~/.pw/alice.key.pem \
+    --cacert ~/.pw/ca.cert.pem \
+    -X POST \
+    "https://api.passwords.durfee.io/accounts/5e7be4d894ab3d01651df603/setUsername" \
+    -H "Content-Type: application/json" \
+    -d '{
        "username": "exampleUsername"
-    }
-    '
+    }'
 ```
