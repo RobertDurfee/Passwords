@@ -26,7 +26,7 @@ The request body must be empty.
 
 If successful, the response body will be empty.
 
-## Example
+## `curl` Example
 
 ```
 curl \
