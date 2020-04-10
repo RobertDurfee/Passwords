@@ -1,4 +1,4 @@
-# Method: accounts.insert
+# Method: `accounts.insert`
 
 Creates an account resource using the data included in the request.
 
@@ -20,7 +20,7 @@ No query parameters are allowed.
 
 The request body contains data with the following structure:
 
-```json
+```
 {
     "key": string,
     "iv": string,
@@ -30,38 +30,19 @@ The request body contains data with the following structure:
 }
 ```
 
-| Fields              |                                                        |
-|---------------------|--------------------------------------------------------|
-| `key`               | `string`                                               |
-|                     |                                                        |
-|                     | The AES encryption key used to encrypt the password    |
-|                     | field. This field is encrypted using the user's        |
-|                     | public key.                                            |
-|                     |                                                        |
-| `iv`                | `string`                                               |
-|                     |                                                        |
-|                     | The AES initialization vector used to encrypt the      |
-|                     | password field.                                        |
-|                     |                                                        |
-| `domainName`        | `string`                                               |
-|                     |                                                        |
-|                     | The domain name for the account resource.              |
-|                     |                                                        |
-| `username`          | `string`                                               |
-|                     |                                                        |
-|                     | The username for the account resource.                 |
-|                     |                                                        |
-| `password`          | `string`                                               |
-|                     |                                                        |
-|                     | The password for the account resource. This field is   |
-|                     | encrypted using the AES encryption key in the `key`    |
-|                     | field.                                                 |
+| Fields |   |
+|:--|---|
+| `key` | `string` <br><br> The AES encryption key used to encrypt the password field. This field is encrypted using the user's public key. |
+| `iv` | `string` <br><br> The AES initialization vector used to encrypt the password field. |
+| `domainName` | `string` <br><br> The domain name for the account resource. |
+| `username` | `string` <br><br> The username for the account resource. |
+| `password` | `string` <br><br> The password for the account resource. This field is encrypted using the AES encryption key in the `key` field. |
 
 ## Response body
 
 If successful, the response body contains data with the following structure:
 
-```json
+```
 {
     "id": string,
     "createdTimestamp": string,
@@ -75,68 +56,34 @@ If successful, the response body contains data with the following structure:
 }
 ```
 
-| Fields              |                                                        |
-|---------------------|--------------------------------------------------------|
-| `id`                | `string`                                               |
-|                     |                                                        |
-|                     | The unique identifier for the account                  |
-|                     | resource. This identifier is defined by the server.    |
-|                     |                                                        |
-| `createdTimestamp`  | `string`                                               |
-|                     |                                                        |
-|                     | The time when the account resource was first created.  |
-|                     |                                                        |
-| `modifiedTimestamp` | `string`                                               |
-|                     |                                                        |
-|                     | The time when the account resource was last modified.  |
-|                     |                                                        |
-| `accessedTimestamp` | `string`                                               |
-|                     |                                                        |
-|                     | The time when the account resource was last accessed.  |
-|                     |                                                        |
-| `key`               | `string`                                               |
-|                     |                                                        |
-|                     | The AES encryption key used to encrypt the password    |
-|                     | field. This field is encrypted using the user's        |
-|                     | public key.                                            |
-|                     |                                                        |
-| `iv`                | `string`                                               |
-|                     |                                                        |
-|                     | The AES initialization vector used to encrypt the      |
-|                     | password field.                                        |
-|                     |                                                        |
-| `domainName`        | `string`                                               |
-|                     |                                                        |
-|                     | The domain name for the account resource.              |
-|                     |                                                        |
-| `username`          | `string`                                               |
-|                     |                                                        |
-|                     | The username for the account resource.                 |
-|                     |                                                        |
-| `password`          | `string`                                               |
-|                     |                                                        |
-|                     | The password for the account resource. This field is   |
-|                     | encrypted using the AES encryption key in the `key`    |
-|                     | field.                                                 |
+| Fields |   |
+|:--|---|
+| `id` | `string` <br><br> The unique identifier for the account resource. This identifier is defined by the server. |
+| `createdTimestamp` | `string` <br><br> The time when the account resource was first created. |
+| `modifiedTimestamp` | `string` <br><br> The time when the account resource was last modified. |
+| `accessedTimestamp` | `string` <br><br> The time when the account resource was last accessed. |
+| `key` | `string` <br><br> The AES encryption key used to encrypt the password field. This field is encrypted using the user's public key. |
+| `iv` | `string` <br><br> The AES initialization vector used to encrypt the password field. |
+| `domainName` | `string` <br><br> The domain name for the account resource. |
+| `username` | `string` <br><br> The username for the account resource. |
+| `password` | `string` <br><br> The password for the account resource. This field is encrypted using the AES encryption key in the `key` field. |
 
-## Example
+## `curl` Example
 
 ```
-curl                                                                           \
-    --cert-type P12                                                            \
-    --cert alice.p12                                                           \
-    -k                                                                         \
-    -X POST                                                                    \
-    "https://api.passwords.durfee.io/accounts"                                 \
-    -H "Content-Type: application/json"                                        \
-    -d '
-    {
+curl \
+    --cert ~/.pw/alice.cert.pem \
+    --key ~/.pw/alice.key.pem \
+    --cacert ~/.pw/ca.cert.pem \
+    -X POST \
+    "https://api.passwords.durfee.io/accounts" \
+    -H "Content-Type: application/json" \
+    -d '{
        "key": "exampleKey",
        "iv": "exampleIV",
        "domainName": "example.domain.name",
        "username": "exampleUsername",
        "password": "examplePassword"
-    }
-    '
+    }'
 ```
 

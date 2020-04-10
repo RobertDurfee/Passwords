@@ -1,4 +1,4 @@
-# Method: accounts.delete
+# Method: `accounts.delete`
 
 Deletes the specified account resource.
 
@@ -10,12 +10,9 @@ DELETE https://api.passwords.durfee.io/accounts/{resourceId}
 
 ## Path parameters
 
-| Parameters   |                                                               |
-|--------------|---------------------------------------------------------------|
-| `resourceId` | `string`                                                      |
-|              |                                                               |
-|              | The unique identifier of the account resource to return. This |
-|              | identifier is defined by the server.                          |
+| Parameters |   |
+|:--|---|
+| `resourceId` | `string` <br><br> The unique identifier of the account resource to return. This identifier is defined by the server. |
 
 ## Query parameters
 
@@ -29,14 +26,14 @@ The request body must be empty.
 
 If successful, the response body will be empty.
 
-## Example
+## `curl` Example
 
 ```
-curl                                                                           \
-    --cert-type P12                                                            \
-    --cert alice.p12                                                           \
-    -k                                                                         \
-    -X DELETE                                                                  \
-    "https://api.passwords.durfee.io/accounts/1"
+curl \
+    --cert ~/.pw/alice.cert.pem \
+    --key ~/.pw/alice.key.pem \
+    --cacert ~/.pw/ca.cert.pem \
+    -X DELETE \
+    "https://api.passwords.durfee.io/accounts/5e7be4d894ab3d01651df603"
 ```
 
