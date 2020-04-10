@@ -576,7 +576,7 @@ program
     .option('--one', 'Only display the first result')
 
 program
-    .command('get')
+    .command('list')
     .description('Get account resources matching the provided options. Options are logically `AND`ed together. If no options are provided, all account resources will be returned.')
     .option('-d, --domain-name <domainName>', 'Returns account resources with domain names exactly matching the provided domain name.')
     .option('--domain-name-ends-with <domainNameSuffix>', 'Returns account resources with domain names ending with the provided domain name suffix. Note: This is an efficient match making use of existing indexes.')
@@ -601,7 +601,7 @@ program
     })
 
 program
-    .command('insert <domainName> <username> <password>')
+    .command('create <domainName> <username> <password>')
     .description('Create an account resource using the provided data.')
     .action((domainName, username, password, options) => {
         configurationHandler(options)
