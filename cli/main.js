@@ -5,6 +5,8 @@ const https = require('https')
 const readline = require('readline')
 const util = require('util')
 const crypto = require('crypto')
+const inquirer = require('inquirer')
+const spawnSync = require('child_process').spawnSync
 
 ////////////////////////////////////////////////////////////////////////////////
 // Global Constants
@@ -48,6 +50,9 @@ const STATUS_DELETE_ERROR = 'DELETE_ERROR'
 const GET_SUCCESS_STATUS_CODE = STATUS_CODE_OK
 const POST_SUCCESS_STATUS_CODE = STATUS_CODE_OK
 const DELETE_SUCCESS_STATUS_CODE = STATUS_CODE_NO_CONTENT
+const EMAIL_DOMAIN_WHITELIST = [
+    'durfee.io',
+]
 
 ////////////////////////////////////////////////////////////////////////////////
 // Global Variables
@@ -560,6 +565,167 @@ const deleteHandler = options => {
     })
 }
 
+const initHandler = options => {
+    fs.mkdirSync(resolveHomeDirectory('~/.pw'))
+    const configurationPath = resolveHomeDirectory(options.parent['configuration'])
+    if (fs.existsSync(configurationPath)) {
+        try {
+            configuration = JSON.parse(fs.readFileSync(configurationPath))
+        } catch (error) {
+            configuration = {}
+        }
+    } else {
+        configuration = {}
+    }
+    if ('certificate' in options.parent) {
+        configuration['certificate'] = options.parent['certificate']
+    }
+    if ('key' in options.parent) {
+        configuration['key'] = options.parent['key']
+    }
+    if ('certificateAuthority' in options.parent) {
+        configuration['certificateAuthority'] = options.parent['certificateAuthority']
+    } else if ('certificateAuthority' in configuration) {
+        // Do nothing
+    } else {
+        configuration['certificateAuthority'] = '~/.pw/ca.cert.pem'
+    }
+    certificateAuthority = fs.readFileSync('../ca.cert.pem')
+    fs.writeFileSync(resolveHomeDirectory(configuration['certificateAuthority']), certificateAuthority)
+    inquirer
+        .prompt([
+            {
+                'type': 'input',
+                'name': 'countryName',
+                'message': 'Country Name (2 letter code):',
+                'default': 'US',
+            }, {
+                'type': 'input',
+                'name': 'stateName',
+                'message': 'State or Province Name (full name):',
+                'default': 'Wisconsin',
+            }, {
+                'type': 'input',
+                'name': 'localityName',
+                'message': 'Locality Name (eg, city):',
+                'default': 'Waupaca',
+            }, {
+                'type': 'input',
+                'name': 'organizationName',
+                'message': 'Organization Name (eg, company):',
+                'default': 'Durfee Ltd',
+            }, {
+                'type': 'input',
+                'name': 'emailAddress',
+                'message': 'Email Address:',
+                'validate': emailAddress => {
+                    const eap = (emailAddress || '').split('@')
+                    return ((eap.length == 2) && (EMAIL_DOMAIN_WHITELIST.includes(eap[1])))
+                }
+            },
+        ]).then(answers => {
+            if (!configuration['key']) {
+                configuration['key'] = `~/.pw/${answers['emailAddress']}.key.pem`
+            }
+            if (!configuration['certificate']) {
+                configuration['certificate'] = `~/.pw/${answers['emailAddress']}.cert.pem`
+            }
+            const csr = spawnSync('openssl', [ 'req', '-nodes', '-newkey', 'rsa:4096', '-keyout', resolveHomeDirectory(configuration['key']), '-subj', `/C=${answers['countryName']}/ST=${answers['stateName']}/L=${answers['localityName']}/O=${answers['organizationName']}/CN=${answers['emailAddress']}/emailAddress=${answers['emailAddress']}` ], { 'encoding': 'utf-8' }).stdout
+            const payload = JSON.stringify({
+                'csr': csr
+            })
+            const request = https.request({
+                'hostname': 'ca.durfee.io',
+                'port': 443,
+                'ca': certificateAuthority,
+                'path': '/certificateSigningRequests',
+                'method': 'POST',
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Content-Length': payload.length,
+                },
+            }, response => {
+                var body = ''
+                response.on('data', data => {
+                    body = body + data
+                })
+                response.on('end', () => {
+                    if (response.statusCode == 200) {
+                        if (body == '') {
+                            logFatal(`Unexpected response '${body}'`)
+                        }
+                        try {
+                            body = JSON.parse(body)
+                        } catch (error) {
+                            logFatal(error)
+                        }
+                        const id = body['id']
+                        inquirer
+                            .prompt([
+                                {
+                                    'type': 'input',
+                                    'name': 'verificationCode',
+                                    'message': 'Verification Code:',
+                                },
+                            ]).then(verificationAnswers => {
+                                const payload = JSON.stringify({
+                                    'verificationCode': verificationAnswers['verificationCode']
+                                })
+                                const request = https.request({
+                                    'hostname': 'ca.durfee.io',
+                                    'port': 443,
+                                    'ca': certificateAuthority,
+                                    'path': `/certificateSigningRequests/${id}/verify`,
+                                    'method': 'POST',
+                                    'headers': {
+                                        'Content-Type': 'application/json',
+                                        'Content-Length': payload.length,
+                                    }
+                                }, response => {
+                                    var body = ''
+                                    response.on('data', data => {
+                                        body = body + data
+                                    })
+                                    response.on('end', () => {
+                                        if (response.statusCode == 200) {
+                                            if (body == '') {
+                                                logFatal(`Unexpected response '${body}'`)
+                                            }
+                                            try {
+                                                body = JSON.parse(body)
+                                            } catch (error) {
+                                                logFatal(error)
+                                            }
+                                            fs.writeFileSync(resolveHomeDirectory(configuration['certificate']), body['cert'], { mode: 0o444 })
+                                            fs.writeFileSync(configurationPath, JSON.stringify(configuration, null, 2))
+                                        } else {
+                                            logFatal(`Unexpected status code '${response.statusCode}'`)
+                                        }
+                                    })
+                                })
+                                request.on('error', error => {
+                                    logFatal(error)
+                                })
+                                request.write(payload)
+                                request.end()
+                            }).catch(error => {
+                                logFatal(error)
+                            })
+                    } else {
+                        logFatal(`Unexpected status code '${response.statusCode}'`)
+                    }
+                })
+            })
+            request.on('error', error => {
+                logFatal(error)
+            })
+            request.write(payload)
+            request.end()
+        }).catch(error => {
+            logFatal(error)
+        })
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Command-Line Arguments
 ////////////////////////////////////////////////////////////////////////////////
@@ -675,6 +841,13 @@ program
     .action(options => {
         configurationHandler(options)
         deleteHandler(options)
+    })
+
+program
+    .command('init')
+    .description('Initialize or re-initialize the user configuration.')
+    .action(options => {
+        initHandler(options)
     })
 
 program.parse(process.argv)

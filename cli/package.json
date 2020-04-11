@@ -9,6 +9,7 @@
   "author": "Robert Durfee",
   "license": "MIT",
   "dependencies": {
-    "commander": "^5.0.0"
+    "commander": "^5.0.0",
+    "inquirer": "^7.1.0"
   }
 }
