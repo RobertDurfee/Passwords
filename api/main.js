@@ -419,7 +419,10 @@ app.get('/accounts', (req, res) => {
     const now = new Date()
     var query
     try {
-        query = buildQuery(req.query)
+        query = {
+            '_cn': dn['cn'],
+            ...buildQuery(req.query),
+        }
     } catch (error) {
         const body = {
             'error': {
